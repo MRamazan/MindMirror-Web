@@ -1455,85 +1455,11 @@ function showResults() {
     });
 }
 
-        function showTypingIndicator() {
-            const indicator = document.createElement('div');
-            indicator.className = 'typing-indicator active';
-            indicator.id = 'typingIndicator';
-            indicator.innerHTML = `
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-            `;
-            chatMessages.appendChild(indicator);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
 
-        function hideTypingIndicator() {
-            const indicator = document.getElementById('typingIndicator');
-            if (indicator) {
-                indicator.remove();
-            }
-        }
+  
 
-        async function sendMessage() {
-            const message = chatInput.value.trim();
-            if (!message) return;
-
-            addMessage(message, true);
-            chatInput.value = '';
-            sendButton.disabled = true;
-
-            showTypingIndicator();
-
-            try {
-                const response = await fetch('http://localhost:5000/chat', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ message: message })
-                });
-
-                const data = await response.json();
-                hideTypingIndicator();
-
-                if (data.response) {
-                    addMessage(data.response, false);
-                } else {
-                    addMessage('Sorry, I encountered an error. Please try again.', false);
-                }
-            } catch (error) {
-                hideTypingIndicator();
-                addMessage('Sorry, I cannot connect to the server. Please make sure the backend is running.', false);
-                console.error('Error:', error);
-            }
-
-            sendButton.disabled = false;
-            chatInput.focus();
-        }
-
-        sendButton.addEventListener('click', sendMessage);
-
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-
-        const clearChatButton = document.getElementById('clearChatButton');
-
-        function clearChat() {
-            chatMessages.innerHTML = `
-                <div class="chat-message bot">
-                    <div class="message-avatar bot">🤖</div>
-                    <div class="message-content bot">
-                        Chat cleared. How can I help you now?
-                    </div>
-                </div>
-            `;
-        }
-
-        clearChatButton.addEventListener('click', clearChat);
+        
+  
 
 
         changeTestBook();
