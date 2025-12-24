@@ -1360,58 +1360,100 @@ function showResults() {
         });
 
 
-        const chatMessages = document.getElementById('chatMessages');
-        const chatInput = document.getElementById('chatInput');
-        const sendButton = document.getElementById('sendButton');
 
-        function addMessage(content, isUser = false) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `chat-message ${isUser ? 'user' : 'bot'}`;
-
-            const avatar = document.createElement('div');
-            avatar.className = `message-avatar ${isUser ? 'user' : 'bot'}`;
-            avatar.textContent = isUser ? '👤' : '🤖';
-
-            const messageContent = document.createElement('div');
-            messageContent.className = `message-content ${isUser ? 'user' : 'bot'}`;
-            messageContent.textContent = content;
-
-            messageDiv.appendChild(avatar);
-            messageDiv.appendChild(messageContent);
-            chatMessages.appendChild(messageDiv);
-
-            chatMessages.scrollTop = chatMessages.scrollHeight;
+        function loadArticles() {
+    const articles = [
+        {
+            "name": "Texas Tech University",
+            "link": "https://www.depts.ttu.edu/rise/Blog/midsemesterslump.php"
+        },
+        {
+            "name": "George Fox University",
+            "link": "https://blogs.georgefox.edu/dlgp/screened-lives-kehidupan-yang-disaring/"
+        },
+        {
+            "name": "NC State Extension",
+            "link": "https://news.ces.ncsu.edu/digital-detox-finding-the-balance-in-a-hyper-connected-world/"
+        },
+        {
+            "name": "Boston University",
+            "link": "https://www.bu.edu/articles/2023/social-media-adolescent-health-report/"
+        },
+        {
+            "name": "University of Utah Health",
+            "link": "https://healthcare.utah.edu/healthfeed/2023/01/impact-of-social-media-teens-mental-health"
+        },
+        {
+            "name": "University of Utah Health",
+            "link": "https://healthcare.utah.edu/the-scope/kids-zone/all/2024/10/social-media-taking-over-your-teens-life-what-you-can-do-about-it"
+        },
+        {
+            "name": "University of Texas Permian Basin",
+            "link": "https://online.utpb.edu/about-us/articles/psychology/thriving-in-the-digital-age-how-technology-influences-our-behavior/"
+        },
+        {
+            "name": "Ohio State University",
+            "link": "https://u.osu.edu/emotionalfitness/?p=621"
+        },
+        {
+            "name": "Penn State University",
+            "link": "https://sites.psu.edu/aspsy/2024/10/23/tick-tock/"
+        },
+        {
+            "name": "University of Richmond",
+            "link": "https://jolt.richmond.edu/2024/03/06/tiktok-brain-can-we-save-childrens-attention-spans/"
+        },
+        {
+            "name": "George Mason University",
+            "link": "https://graduate.gmu.edu/news/2022-11/why-am-i-tired-because-i-am-tired"
+        },
+        {
+            "name": "Mercy University",
+            "link": "https://career.mercy.edu/blog/2025/02/24/8-ways-to-spot-burnout-before-it-derails-your-career/"
+        },
+        {
+            "name": "University of Massachusetts Boston",
+            "link": "https://blogs.umb.edu/undercurrents/2025/08/18/the-dystopian-landscape-of-short-form-content/"
+        },
+        {
+            "name": "Harvard Health Publishing",
+            "link": "https://www.health.harvard.edu/blog/staying-focused-in-the-era-of-digital-distractions-2020060920152"
+        },
+        {
+            "name": "Harvard Summer School",
+            "link": "https://summer.harvard.edu/blog/need-a-break-from-social-media-heres-why-you-should/"
+        },
+        {
+            "name": "UC Davis Health",
+            "link": "https://health.ucdavis.edu/blog/cultivating-health/social-medias-impact-on-our-mental-health/2024/05"
+        },
+        {
+            "name": "Holy Family University",
+            "link": "https://www.holyfamily.edu/about/news-and-media/hfu-blog-network/tiktok-impact-attention-and-memory"
+        },
+        {
+            "name": "Holy Family University",
+            "link": "https://www.holyfamily.edu/about/news-and-media/hfu-blog-network/cognitive-and-emotional-consequences-hurry-sickness-how-constant-rushing-overloading-your-brain"
         }
+    ];
 
-        async function loadArticles() {
-            const grid = document.getElementById('articlesGrid');
-            if (!grid) return;
+    const grid = document.getElementById('articlesGrid');
+    if (!grid) return;
 
-            grid.innerHTML = '<p style="color:#94a3b8">Loading articles...</p>';
+    grid.innerHTML = '';
 
-            try {
-                const res = await fetch('http://localhost:5000/articles');
-                const data = await res.json();
+    articles.forEach(article => {
+        const div = document.createElement('div');
+        div.className = 'article-card';
 
-                grid.innerHTML = '';
+        div.innerHTML = `
+            <h3>${article.name}</h3>
+            <a href="${article.link}" target="_blank">Read article →</a>
+        `;
 
-                data.articles.forEach(article => {
-                    const div = document.createElement('div');
-                    div.className = 'article-card';
-
-                    div.innerHTML = `
-                        <h3>${article.name}</h3>
-                        <a href="${article.link}" target="_blank">Read article →</a>
-                    `;
-
-                    grid.appendChild(div);
-                });
-
-            } catch (err) {
-                grid.innerHTML = '<p style="color:red">Failed to load articles</p>';
-                console.error(err);
-            }
-        }
+        grid.appendChild(div);
+    });
+}
 
         function showTypingIndicator() {
             const indicator = document.createElement('div');
